@@ -1,0 +1,30 @@
+spring:
+  datasource:
+    username: root
+    password: qikami
+    url: jdbc:mysql://101.43.240.27:3306/blog?serverTimezone=UTC&useUnicode=true&characterEnconding=utf-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  redis:
+    host: 101.43.240.27
+    port: 6379
+    password: qikami
+  mybatis:
+    type-aliases-package: com.qipt.pojo
+    mapper-locations: classpath:com/qipt/mapper/*.xml
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: countSql
+logging:
+  level:
+    com.qipt.mapper: debug  # ?????sql
+
+comment.avatar: https://i.loli.net/2021/05/02/QAioDNPKlZVutY4.png
+
+server:
+  port: 80
+  servlet:
+    context-path: /blog # ??? ContextPath must start with '/' and not end with '/'
