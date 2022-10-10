@@ -175,24 +175,24 @@ public class Blog implements Serializable {
 
     @Override
     public String toString() {
-        return "Blog{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", firstPicture='" + firstPicture + '\'' +
-                ", flag='" + flag + '\'' +
-                ", views=" + views +
-                ", appreciation=" + appreciation +
-                ", shareStatement=" + shareStatement +
-                ", commentAble=" + commentAble +
-                ", published=" + published +
-                ", recommend=" + recommend +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                ", description='" + description + '\'' +
-                ", type=" + type +
-                ", user=" + user +
-                ", comments=" + comments +
+        return "{" +
+                "id:" + id +
+                ",title:" + title +
+                ",content:" + content +
+                ",firstPicture:" + firstPicture +
+                ",flag:" + flag +
+                ",views:" + views +
+                ",appreciation:" + appreciation +
+                ",shareStatement:" + shareStatement +
+                ",commentAble:" + commentAble +
+                ",published:" + published +
+                ",recommend:" + recommend +
+                ",createTime:" + createTime +
+                ",updateTime:" + updateTime +
+                ",description:" + description +
+                ",type:" + type +
+                ",user:"+ user +
+                ",comments:" + comments +
                 '}';
     }
 }

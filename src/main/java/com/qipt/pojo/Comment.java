@@ -96,12 +96,12 @@ public class Comment implements Serializable {
 
     @Override
     public String toString() {
-        return "Comment{" +
-                "id=" + id +
-                ", nickname='" + nickname + '\'' +
-                ", content='" + content + '\'' +
-                ", avatar='" + avatar + '\'' +
-                ", createTime=" + createTime +
+        return "{" +
+                "id:" + id +
+                ",nickname:" + nickname +
+                ",content:" + content  +
+                ",avatar:" + avatar +
+                ",createTime:" + createTime +
                 '}';
     }
 }
