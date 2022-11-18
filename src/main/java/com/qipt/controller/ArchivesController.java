@@ -1,39 +1,32 @@
 package com.qipt.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.qipt.pojo.Blog;
+import com.qipt.response.ResponseData;
 import com.qipt.service.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-@Controller
+@RestController
+@RequestMapping("/archives")
 public class ArchivesController {
 
     @Autowired
     private BlogService blogService;
 
-    @GetMapping("/archives")
-    public String archives(Model model) {
-        Map<String, List<Blog>> map = blogService.selectMap();
-        Set<String> strings = map.keySet();
-        int counts = 0;
-        for (String s : strings) {
-            counts += map.get(s).size();
+    @GetMapping("/pagination")
+    public ResponseData archives(@RequestParam(name = "page", required = true, defaultValue = "1") Integer page,
+                             @RequestParam(name = "size", required = true, defaultValue = "5") Integer size) {
+        ResponseData responseData = null;
+        PageInfo<Blog> pageInfo = blogService.selectList(page, size);
+        if (pageInfo != null) {
+            responseData = new ResponseData(1, "查询成功", pageInfo);
+        } else {
+            responseData = new ResponseData(0, "未查询到结果", null);
         }
-        model.addAttribute("map", map);
-
-        Set<Map.Entry<String, List<Blog>>> entries = map.entrySet();
-        for (Map.Entry<String, List<Blog>> entry : entries) {
-            System.out.println(entry.getKey());
-            System.out.println(entry.getValue());
-        }
-
-        model.addAttribute("counts", counts); //拿到blog总数
-        return "archives";
+        return responseData;
     }
 }
