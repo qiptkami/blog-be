@@ -10,10 +10,19 @@ public class Comment implements Serializable {
     private String nickname; //昵称
     private String content; //内容
     private String avatar; //头像地址
+    private String email; //邮箱
     private Date createTime; //评论时间
     private boolean isAdminComment; //是否是管理员评论
 
     private Blog blog; //对一
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     private List<Comment> replyComment; //子回复
 
@@ -96,12 +105,15 @@ public class Comment implements Serializable {
 
     @Override
     public String toString() {
-        return "{" +
-                "id:" + id +
-                ",nickname:" + nickname +
-                ",content:" + content  +
-                ",avatar:" + avatar +
-                ",createTime:" + createTime +
+        return "Comment{" +
+                "id=" + id +
+                ", nickname='" + nickname + '\'' +
+                ", content='" + content + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", email='" + email + '\'' +
+                ", createTime=" + createTime +
+                ", isAdminComment=" + isAdminComment +
+                ", blog=" + blog +
                 '}';
     }
 }

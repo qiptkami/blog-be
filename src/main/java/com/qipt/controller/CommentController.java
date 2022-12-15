@@ -2,21 +2,19 @@ package com.qipt.controller;
 
 import com.qipt.pojo.Comment;
 import com.qipt.pojo.User;
+import com.qipt.response.ResponseData;
 import com.qipt.service.BlogService;
 import com.qipt.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping("/comments")
 public class CommentController {
 
     @Autowired
@@ -28,15 +26,22 @@ public class CommentController {
     @Value("${comment.avatar}")
     private String avatar;
 
-    @GetMapping("/comments/{blogId}")
-    public String commentList(@PathVariable Long blogId, Model model) {
-        List<Comment> list = commentService.selectList(blogId);
-        model.addAttribute("comments", list);  //根据blogId查询出所有没有parentComment的Comment
-        return "blog :: commentList";
+    @GetMapping("/{blogId}")
+    public ResponseData commentList(@PathVariable Long blogId) {
+        ResponseData responseData = null;
+        List<Comment> list = commentService.selectList(blogId); //根据blogId查询出所有没有parentComment的Comment
+        if (list != null) {
+            responseData = new ResponseData(1, "查询成功", list);
+        } else {
+            responseData = new ResponseData(0, "未查询到结果", null);
+        }
+        return responseData;
     }
 
-    @PostMapping("/comments")
-    public String insert(Comment comment, HttpServletRequest request) {
+    @PostMapping("")
+    public ResponseData insert(@RequestBody Comment comment, HttpServletRequest request) {
+        System.out.println("123"+comment);
+        ResponseData responseData = null;
         Long blogId = comment.getBlog().getId();
         comment.setBlog(blogService.selectOne(blogId));
 
@@ -53,8 +58,12 @@ public class CommentController {
             comment.setAvatar(avatar);
             comment.setAdminComment(false);
         }
-        commentService.insert(comment);
-
-        return "redirect:/comments/" + blogId;
+        Comment m = commentService.insert(comment);
+        if (m != null) {
+            responseData = new ResponseData(1, "插入成功", m);
+        } else {
+            responseData = new ResponseData(0, "插入失败", null);
+        }
+        return responseData;
     }
 }

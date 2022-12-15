@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CommentService {
 
-    void insert(Comment comment);
+    Comment insert(Comment comment);
 
     List<Comment> selectList(Long blogId);
 

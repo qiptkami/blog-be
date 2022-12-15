@@ -151,7 +151,6 @@ public class BlogServiceImpl implements BlogService {
             Blog b = blogMapper.selectOneById(id);
             views = new AtomicInteger(b.getViews());
         } while (!views.compareAndSet(views.intValue(), views.intValue() + 1)); //cas自旋
-
         blog.setViews(views.intValue());
         blogMapper.updateViews(id);
         //更新缓存

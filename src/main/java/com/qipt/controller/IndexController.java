@@ -62,23 +62,32 @@ public class IndexController {
         return responseData;
     }
 
-    @PostMapping("/search")
-    public String search(@RequestParam(name = "page", required = true, defaultValue = "1") Integer page,
+    @GetMapping("/search")
+    public ResponseData search(@RequestParam(name = "page", required = true, defaultValue = "1") Integer page,
                          @RequestParam(name = "size", required = true, defaultValue = "6") Integer size,
-                         String query,
-                         Model model) {
-        model.addAttribute("pageInfo", blogService.selectList(page, size, query));
-        model.addAttribute("query", query);
-        return "search";
+                         String query) {
+        ResponseData responseData = null;
+        PageInfo<Blog> pageInfo = blogService.selectList(page, size, query);
+        if (pageInfo != null) {
+            responseData = new ResponseData(1, "查询成功", pageInfo);
+        } else {
+            responseData = new ResponseData(0, "未查询到结果", null);
+        }
+        return responseData;
     }
 
     @GetMapping("/blog/{id}")
-    public String blog(@PathVariable Long id, Model model) {
+    public ResponseData blog(@PathVariable Long id) {
+        ResponseData responseData = null;
         Blog blog = blogService.selectOne(id);
         blogService.incrView(id, blog);
-        blog.setContent(MarkdownUtils.markdownToHtmlExtensions(blog.getContent()));
-        model.addAttribute("blog", blog);
-        return "blog";
+//        blog.setContent(MarkdownUtils.markdownToHtmlExtensions(blog.getContent()));
+        if (blog != null) {
+            responseData = new ResponseData(1, "查询成功", blog);
+        } else {
+            responseData = new ResponseData(0, "未查询到结果", null);
+        }
+        return responseData;
     }
 
 }
