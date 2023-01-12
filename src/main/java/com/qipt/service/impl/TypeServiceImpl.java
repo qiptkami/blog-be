@@ -3,6 +3,7 @@ package com.qipt.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.qipt.mapper.TypeMapper;
+import com.qipt.pojo.Blog;
 import com.qipt.pojo.Type;
 import com.qipt.service.TypeService;
 import com.qipt.util.RedisUtils;
@@ -66,6 +67,16 @@ public class TypeServiceImpl implements TypeService {
     }
 
     /**
+     * 查询所有的type和blogs
+     * @return
+     */
+    public List<Type> selectBList() {
+        List<Type> types = new ArrayList<>();
+        types = typeMapper.selectListAndBlog();
+        return types;
+    }
+
+    /**
      * 排行榜 ranking
      *
      * 拿到types中 blog数量最多的size个type  排序由redis的zset完成
@@ -75,7 +86,7 @@ public class TypeServiceImpl implements TypeService {
      */
     @Override
     public Map<Type, Integer> selectList(int size) {
-        String key = "type_blogs";
+        String key = "type_blogs_size";
         Map<Type, Integer> map = new LinkedHashMap<>();
         List<Type> types;
         boolean exists = redisUtils.exists(key);

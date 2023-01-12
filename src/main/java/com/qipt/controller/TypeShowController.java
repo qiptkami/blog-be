@@ -9,6 +9,7 @@ import com.qipt.service.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -32,6 +33,22 @@ public class TypeShowController {
         Map<Type, Integer> map = typeService.selectList(10000);
         if (map != null) {
             responseData = new ResponseData(1, "查询成功", map);
+        } else {
+            responseData = new ResponseData(0, "未查询到结果", null);
+        }
+        return responseData;
+    }
+
+    /**
+     * 查询所有type，和该type下的所有blog
+     */
+    @GetMapping("/blogs")
+    public ResponseData typesBlogs() {
+        ResponseData responseData = null;
+        //查询所有type
+        List<Type> list = typeService.selectBList();
+        if (list != null) {
+            responseData = new ResponseData(1, "查询成功", list);
         } else {
             responseData = new ResponseData(0, "未查询到结果", null);
         }
