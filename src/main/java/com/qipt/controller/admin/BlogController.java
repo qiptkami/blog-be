@@ -4,7 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.qipt.pojo.Blog;
 import com.qipt.pojo.User;
 import com.qipt.service.BlogService;
-import com.qipt.service.TypeService;
+import com.qipt.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +23,7 @@ public class BlogController {
     private BlogService blogService;
 
     @Autowired
-    private TypeService typeService;
+    private TagService tagService;
 
     @GetMapping("/blogs")
     public String list(@RequestParam(name = "page", required = true, defaultValue = "1") Integer page,
@@ -31,14 +31,14 @@ public class BlogController {
                        Model model) {
         PageInfo<Blog> pageInfo = blogService.selectList(page, size);
         model.addAttribute("pageInfo", pageInfo);
-        model.addAttribute("types", typeService.selectList());
+        model.addAttribute("tags", tagService.selectList());
         return "admin/blogs";
     }
 
     @GetMapping("/blogs/input")
     public String inputPage(Model model) {
         model.addAttribute("blog", new Blog());
-        model.addAttribute("types", typeService.selectList());
+        model.addAttribute("tags", tagService.selectList());
         return "admin/blogs-input";
     }
 
@@ -46,15 +46,15 @@ public class BlogController {
     public String updatePage(@PathVariable Long id, Model model) {
         Blog blog = blogService.selectOne(id);
         model.addAttribute("blog", blog);
-        model.addAttribute("types", typeService.selectList());
+        model.addAttribute("tags", tagService.selectList());
         return "admin/blogs-input";
     }
 
     @PostMapping("/blogs/search")
     public String search(@RequestParam(name = "page", required = true, defaultValue = "1") Integer page,
                          @RequestParam(name = "size", required = true, defaultValue = "5") Integer size,
-                         Model model, String title, Long typeId, boolean recommend) {
-        PageInfo<Blog> pageInfo = blogService.selectList(page, size, title, typeId, recommend);
+                         Model model, String title, Long tagId) {
+        PageInfo<Blog> pageInfo = blogService.selectList(page, size, title, tagId);
         model.addAttribute("pageInfo", pageInfo);
         return "admin/blogs :: blogList";
     }
@@ -63,7 +63,7 @@ public class BlogController {
     public String insert(@Valid Blog blog, BindingResult result, RedirectAttributes attributes, HttpServletRequest request, Model model) {
         User user = (User) request.getSession().getAttribute("user");
         blog.setUser(user);
-        blog.setType(typeService.selectOne(blog.getType().getId()));
+//        blog.setTag(tagService.selectOne(blog.getTag().getId()));
         Blog b = null;
         if (blog.getId() != null) {  //修改的时候blog id 不为null
             System.out.println(blog);
@@ -74,7 +74,7 @@ public class BlogController {
             }
             if (result.hasErrors()) {
                 System.out.println(result.getAllErrors().toString());
-                model.addAttribute("types", typeService.selectList());
+                model.addAttribute("tags", tagService.selectList());
                 return "admin/blogs-input";
             }
             b = blogService.insert(blog);

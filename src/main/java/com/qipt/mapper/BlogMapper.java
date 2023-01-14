@@ -15,22 +15,11 @@ public interface BlogMapper {
     //查询所有blog
     List<Blog> selectList();
 
-    //按照updateTime排序 查询size个
-    List<Blog> selectListByUpdateTime(int size);
-
     //首页查询
-    List<Blog> selectListConditional(String query);
+    List<Blog> selectListQuery(String query);
 
     //后端条件查询
-    List<Blog> selectListMultipleConditional(String title, Long typeId, boolean recommend);
-
-    //查询所有blog的create年份
-    List<String> selectListYear();
-
-    //通过年份分组查询blog
-    List<Blog> selectListByYear(String year);
-
-    void updateViews(Long id);
+    List<Blog> selectListMultipleConditional(String title, Long typeId);
 
     void insert(Blog blog);
 

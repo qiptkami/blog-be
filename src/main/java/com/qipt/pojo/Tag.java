@@ -5,14 +5,14 @@ import java.io.Serializable;
 import java.util.List;
 
 //分类
-public class Type implements Serializable {
+public class Tag implements Serializable {
     private Long id;
-    @NotBlank(message = "分类名称不能为空")
+    @NotBlank(message = "标签名称不能为空")
     private String name;
 
     private List<Blog> blogs; //对多
 
-    public Type() {
+    public Tag() {
     }
 
     public Long getId() {

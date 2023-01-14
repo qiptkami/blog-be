@@ -14,17 +14,11 @@ public class Blog implements Serializable {
     private String content;  //内容
     private String firstPicture;  //首图
     private String flag; //原创 转载 ...
-    private Integer views;  //浏览次数
-    private boolean appreciation;  //赞赏开启
-    private boolean shareStatement; //转载开启
-    private boolean commentAble; //评论开启
-    private boolean published;  //是否发布
-    private boolean recommend; //是否推荐
     private Date createTime; //创建时间
     private Date updateTime; //更新时间
     private String description;  //描述
 
-    private Type type; //对一
+    private List<Tag> tags; //对多
 
     private User user; //对一
 
@@ -33,8 +27,8 @@ public class Blog implements Serializable {
     public Blog() {
     }
 
-    public Type getType() {
-        return type;
+    public List<Tag> getTags() {
+        return tags;
     }
 
     public User getUser() {
@@ -63,30 +57,6 @@ public class Blog implements Serializable {
 
     public String getFlag() {
         return flag;
-    }
-
-    public Integer getViews() {
-        return views;
-    }
-
-    public boolean isAppreciation() {
-        return appreciation;
-    }
-
-    public boolean isShareStatement() {
-        return shareStatement;
-    }
-
-    public boolean isCommentAble() {
-        return commentAble;
-    }
-
-    public boolean isPublished() {
-        return published;
-    }
-
-    public boolean isRecommend() {
-        return recommend;
     }
 
     public Date getCreateTime() {
@@ -121,30 +91,6 @@ public class Blog implements Serializable {
         this.flag = flag;
     }
 
-    public void setViews(Integer views) {
-        this.views = views;
-    }
-
-    public void setAppreciation(boolean appreciation) {
-        this.appreciation = appreciation;
-    }
-
-    public void setShareStatement(boolean shareStatement) {
-        this.shareStatement = shareStatement;
-    }
-
-    public void setCommentAble(boolean commentAble) {
-        this.commentAble = commentAble;
-    }
-
-    public void setPublished(boolean published) {
-        this.published = published;
-    }
-
-    public void setRecommend(boolean recommend) {
-        this.recommend = recommend;
-    }
-
     public void setDescription(String description) {
         this.description = description;
     }
@@ -161,8 +107,8 @@ public class Blog implements Serializable {
         this.updateTime = goodsC_date;
     }
 
-    public void setType(Type type) {
-        this.type = type;
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 
     public void setUser(User user) {
@@ -181,16 +127,10 @@ public class Blog implements Serializable {
                 ",content:" + content +
                 ",firstPicture:" + firstPicture +
                 ",flag:" + flag +
-                ",views:" + views +
-                ",appreciation:" + appreciation +
-                ",shareStatement:" + shareStatement +
-                ",commentAble:" + commentAble +
-                ",published:" + published +
-                ",recommend:" + recommend +
                 ",createTime:" + createTime +
                 ",updateTime:" + updateTime +
                 ",description:" + description +
-                ",type:" + type +
+                ",tags:" + tags +
                 ",user:"+ user +
                 ",comments:" + comments +
                 '}';

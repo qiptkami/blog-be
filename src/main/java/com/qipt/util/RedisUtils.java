@@ -366,10 +366,7 @@ public class RedisUtils {
             List<Object> values = redisTemplate.opsForHash().values(key);
             Long size = 0L;
             for (Object obj : values) {
-                Blog blog = (Blog) obj;
-                if (blog.isPublished()) {
-                    size++;
-                }
+                size++;
             }
             return size;
         }

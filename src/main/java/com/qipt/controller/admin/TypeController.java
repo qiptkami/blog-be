@@ -1,8 +1,8 @@
 package com.qipt.controller.admin;
 
 import com.github.pagehelper.PageInfo;
-import com.qipt.pojo.Type;
-import com.qipt.service.TypeService;
+import com.qipt.pojo.Tag;
+import com.qipt.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +17,7 @@ import javax.validation.Valid;
 public class TypeController {
 
     @Autowired
-    private TypeService typeService;
+    private TagService typeService;
 
     /**
      * 分页查询所有types 并跳转到admin/types.html
@@ -30,8 +30,8 @@ public class TypeController {
     public String indexPage(@RequestParam(name = "page", required = true, defaultValue = "1") Integer page,
                                 @RequestParam(name = "size", required = true, defaultValue = "5") Integer size,
                                  Model model) {
-        PageInfo<Type> pageInfo = typeService.selectList(page, size);
-        model.addAttribute("pageInfo", pageInfo);
+//        PageInfo<Tag> pageInfo = typeService.selectList(page, size);
+//        model.addAttribute("pageInfo", pageInfo);
         return "admin/types";
     }
 
@@ -54,7 +54,7 @@ public class TypeController {
      */
     @GetMapping("/types/input")
     public String insertPage(Model model) {
-        model.addAttribute("type", new Type());
+        model.addAttribute("type", new Tag());
         return "admin/types-input";
     }
 
@@ -66,14 +66,14 @@ public class TypeController {
      * @return
      */
     @PostMapping("/types")
-    public String insert(@Valid Type type, BindingResult result, RedirectAttributes attributes) {
+    public String insert(@Valid Tag type, BindingResult result, RedirectAttributes attributes) {
         if (typeService.selectOne(type.getName()) != null) {
             result.rejectValue("name", "nameError", "该分类已存在");
         }
         if (result.hasErrors()) {
             return "admin/types-input";
         }
-        Type t = typeService.insert(type);
+        Tag t = typeService.insert(type);
         if (t == null) {
             attributes.addFlashAttribute("errMsg","新增失败");
         } else {
@@ -91,14 +91,14 @@ public class TypeController {
      * @return
      */
     @PutMapping("/types/{id}")
-    public String update(@PathVariable Long id, @Valid Type type, BindingResult result, RedirectAttributes attributes) {
+    public String update(@PathVariable Long id, @Valid Tag type, BindingResult result, RedirectAttributes attributes) {
         if (typeService.selectOne(type.getName()) != null) {
             result.rejectValue("name", "nameError", "该分类已存在");
         }
         if (result.hasErrors()) {
             return "admin/types-input";
         }
-        Type t = typeService.update(id, type);
+        Tag t = typeService.update(id, type);
         if (t == null) {
             attributes.addFlashAttribute("errMsg","更新失败");
         } else {

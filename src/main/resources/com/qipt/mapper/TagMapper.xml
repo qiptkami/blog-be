@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qipt.mapper.TagMapper">
+
+    <resultMap id="tagToBlogsMap" type="com.qipt.pojo.Tag">
+        <id property="id" column="id"></id>
+        <result property="name" column="name"></result>
+        <collection property="blogs" ofType="com.qipt.pojo.Blog">
+            <id property="id" column="bid"></id>
+            <result property="content" column="content"></result>
+            <result property="createTime" column="create_time"></result>
+            <result property="firstPicture" column="first_picture"></result>
+            <result property="flag" column="flag"></result>
+            <result property="title" column="title"></result>
+            <result property="updateTime" column="update_time"></result>
+            <result property="description" column="description"></result>
+        </collection>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.qipt.pojo.Tag" useGeneratedKeys="true" keyProperty="id">
+        insert into t_tag(name) values(#{name});
+    </insert>
+    <select id="selectList" resultMap="tagToBlogsMap">
+        select t.id, t.name, b.id as bid, b.title, b.content, b.first_picture, b.flag, b.update_time, b.create_time, b.description from t_tag t left join t_tag_blog u on t.id = u.tag_id left join t_blog b on u.blog_id = b.id
+    </select>
+
+    <select id="selectOneById" parameterType="Long" resultType="com.qipt.pojo.Tag">
+        select `id`, `name` from t_tag where `id` = #{id};
+    </select>
+
+    <select id="selectOneByName" resultType="com.qipt.pojo.Tag">
+        select `id`, `name` from t_tag where `name` = #{name};
+    </select>
+
+    <update id="update" parameterType="com.qipt.pojo.Tag">
+        update `t_tag` set `name` = #{name} where `id` = #{id};
+    </update>
+
+    <delete id="delete" parameterType="Long">
+        delete from `t_tag` where `id` = #{id};
+    </delete>
+
+</mapper>

@@ -25,7 +25,6 @@ public class RedisConfig {
         om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL);
         jackson2JsonRedisSerializer.setObjectMapper(om);
-
         //String序列化
         StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
         // key采用string的序列化方式
