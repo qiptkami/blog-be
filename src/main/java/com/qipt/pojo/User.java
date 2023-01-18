@@ -11,7 +11,6 @@ public class User implements Serializable {
     private String password;
     private String email;
     private String avatar; //头像
-    private String type; //类型
     private Date createTime;
     private Date updateTime;
 
@@ -38,10 +37,6 @@ public class User implements Serializable {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public void setCreateTime(Date createTime) {
@@ -76,10 +71,6 @@ public class User implements Serializable {
         return avatar;
     }
 
-    public String getType() {
-        return type;
-    }
-
     public Date getCreateTime() {
         return createTime;
     }
@@ -100,7 +91,6 @@ public class User implements Serializable {
                 ",password:" + password +
                 ",email:" + email +
                 ",avatar:" + avatar +
-                ",type:" + type +
                 ",createTime:" + createTime +
                 ",updateTime:" + updateTime +
                 '}';

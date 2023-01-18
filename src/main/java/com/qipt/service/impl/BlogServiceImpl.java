@@ -24,7 +24,7 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public Blog selectOne(Long id) {
         //首先查缓存
-        String key = "blog";
+        String key = "blogs";
         boolean exists = redisUtils.exists(key);
         if (!exists) {
             Blog blog = blogMapper.selectOneById(id);

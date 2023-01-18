@@ -10,7 +10,6 @@
         <result property="content" column="content"></result>
         <result property="createTime" column="create_time"></result>
         <result property="firstPicture" column="first_picture"></result>
-        <result property="flag" column="flag"></result>
         <result property="title" column="title"></result>
         <result property="updateTime" column="update_time"></result>
         <result property="description" column="description"></result>
@@ -26,7 +25,7 @@
     </resultMap>
 
     <select id="selectOneById" resultMap="blogToTagAndUserMap">
-        select b.id, b.title, b.content, b.first_picture, b.flag, b.update_time, b.create_time, b.description, b.user_id, t.id as tid, t.`name`, u.id as uid, u.email, u.avatar, u.username,u.sign
+        select b.id, b.title, b.content, b.first_picture, b.update_time, b.create_time, b.description, b.user_id, t.id as tid, t.`name`, u.id as uid, u.email, u.avatar, u.username,u.sign
         from t_blog b left join t_tag_blog m on m.blog_id = b.id
                       left join t_tag t on t.id = m.tag_id
                       left join t_user u on u.id = b.user_id
@@ -34,7 +33,7 @@
     </select>
 
     <select id="selectOneByTitle" resultMap="blogToTagAndUserMap">
-        select b.id, b.title, b.content, b.first_picture, b.flag, b.update_time, b.create_time, b.description, b.user_id, t.id as tid, t.`name`, u.id as uid, u.email, u.avatar, u.username,u.sign
+        select b.id, b.title, b.content, b.first_picture, b.update_time, b.create_time, b.description, b.user_id, t.id as tid, t.`name`, u.id as uid, u.email, u.avatar, u.username, u.sign
         from t_blog b left join t_tag_blog m on m.blog_id = b.id
                       left join t_tag t on t.id = m.tag_id
                       left join t_user u on u.id = b.user_id
@@ -42,14 +41,14 @@
     </select>
 
     <select id="selectList" resultMap="blogToTagAndUserMap">
-        select b.id, b.title, b.content, b.first_picture, b.flag, b.update_time, b.create_time, b.description, b.user_id, t.id as tid, t.`name`, u.id as uid, u.email, u.avatar, u.username,u.sign
+        select b.id, b.title, b.content, b.first_picture, b.flag, b.update_time, b.create_time, b.description, b.user_id, t.id as tid, t.`name`, u.id as uid, u.email, u.avatar, u.username, u.sign
         from t_blog b left join t_tag_blog m on m.blog_id = b.id
                       left join t_tag t on t.id = m.tag_id
                       left join t_user u on u.id = b.user_id
 </select>
 
     <select id="selectListQuery" resultMap="blogToTagAndUserMap">
-        select b.id, b.title, b.content, b.first_picture, b.flag, b.update_time, b.create_time, b.description, b.user_id, t.id as tid, t.`name`, u.id as uid, u.email, u.avatar, u.username,u.sign
+        select b.id, b.title, b.content, b.first_picture, b.update_time, b.create_time, b.description, b.user_id, t.id as tid, t.`name`, u.id as uid, u.email, u.avatar, u.username, u.sign
         from t_blog b left join t_tag_blog m on m.blog_id = b.id
                       left join t_tag t on t.id = m.tag_id
                       left join t_user u on u.id = b.user_id
@@ -69,8 +68,7 @@
     </select>
 
     <update id="update" parameterType="com.qipt.pojo.Blog">
-        update t_blog set `appreciation` = #{appreciation}, `comment_able` = #{commentAble}, `content` = #{content},
-        `first_picture` = #{firstPicture}, `flag` = #{flag}, `published` = #{published}, `recommend` = #{recommend}, `share_statement` = #{shareStatement},
+        update t_blog set `content` = #{content}, `first_picture` = #{firstPicture},
         `title` = #{title}, `update_time` = #{updateTime}, `type_id` = #{type.id}, `description` = #{description} where `id` = #{id};
     </update>
 
@@ -79,8 +77,8 @@
     </delete>
 
     <insert id="insert" parameterType="com.qipt.pojo.Blog" useGeneratedKeys="true" keyProperty="id">
-        insert into t_blog(`appreciation`, `comment_able`, `content`, `create_time`, `first_picture`, `flag`, `published`, `recommend`, `share_statement`, `title`, `update_time`, `views`, `type_id`, `user_id`, `description`)
-        values(#{appreciation}, #{commentAble}, #{content}, #{createTime}, #{firstPicture}, #{flag}, #{published}, #{recommend}, #{shareStatement}, #{title}, #{updateTime}, #{views}, #{type.id}, #{user.id}, #{description});
+        insert into t_blog(`content`, `create_time`, `first_picture`, `title`, `update_time`, `type_id`, `user_id`, `description`)
+        values(#{content}, #{createTime}, #{firstPicture}, #{title}, #{updateTime}, #{type.id}, #{user.id}, #{description});
     </insert>
 
 </mapper>

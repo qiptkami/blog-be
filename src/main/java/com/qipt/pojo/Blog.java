@@ -13,7 +13,6 @@ public class Blog implements Serializable {
     private String title;  //标题
     private String content;  //内容
     private String firstPicture;  //首图
-    private String flag; //原创 转载 ...
     private Date createTime; //创建时间
     private Date updateTime; //更新时间
     private String description;  //描述
@@ -55,10 +54,6 @@ public class Blog implements Serializable {
         return firstPicture;
     }
 
-    public String getFlag() {
-        return flag;
-    }
-
     public Date getCreateTime() {
         return createTime;
     }
@@ -85,10 +80,6 @@ public class Blog implements Serializable {
 
     public void setFirstPicture(String firstPicture) {
         this.firstPicture = firstPicture;
-    }
-
-    public void setFlag(String flag) {
-        this.flag = flag;
     }
 
     public void setDescription(String description) {
@@ -126,7 +117,6 @@ public class Blog implements Serializable {
                 ",title:" + title +
                 ",content:" + content +
                 ",firstPicture:" + firstPicture +
-                ",flag:" + flag +
                 ",createTime:" + createTime +
                 ",updateTime:" + updateTime +
                 ",description:" + description +
