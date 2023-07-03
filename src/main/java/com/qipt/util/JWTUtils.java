@@ -52,4 +52,8 @@ public class JWTUtils {
     public static String parserToken(String token, String claim) {
         return JWT.decode(token).getClaim(claim).asString();
     }
+
+    public static boolean removeToken(String token) {
+        return false;
+    }
 }

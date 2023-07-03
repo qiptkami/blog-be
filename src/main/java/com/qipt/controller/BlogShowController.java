@@ -19,25 +19,13 @@ public class BlogShowController {
     TagService typeService;
 
     @GetMapping("/pagination")
-    public ResponseData pagination(@RequestParam(name = "page", required = true, defaultValue = "1") Integer page,
-                                   @RequestParam(name = "size", required = true, defaultValue = "5") Integer size) {
+    public ResponseData pagination(@RequestParam(name = "page", required = false, defaultValue = "1") Integer page,
+                                   @RequestParam(name = "size", required = false, defaultValue = "5") Integer size,
+                                   @RequestParam(name = "title", required = false, defaultValue = "") String title,
+                                   @RequestParam(name = "tagId", required = false, defaultValue = "0") Long tagId
+    ) {
         ResponseData responseData = null;
-        PageInfo<Blog> pageInfo = blogService.selectList(page, size);
-        System.out.println(pageInfo.getList().size());
-        if (pageInfo != null) {
-            responseData = new ResponseData(1, "查询成功", pageInfo);
-        } else {
-            responseData = new ResponseData(0, "未查询到结果", null);
-        }
-        return responseData;
-    }
-
-    @GetMapping("/search")
-    public ResponseData search(@RequestParam(name = "page", required = true, defaultValue = "1") Integer page,
-                               @RequestParam(name = "size", required = true, defaultValue = "6") Integer size,
-                               String query) {
-        ResponseData responseData = null;
-        PageInfo<Blog> pageInfo = blogService.selectList(page, size, query);
+        PageInfo<Blog> pageInfo = blogService.selectList(page, size, title, tagId);
         if (pageInfo != null) {
             responseData = new ResponseData(1, "查询成功", pageInfo);
         } else {
@@ -50,7 +38,7 @@ public class BlogShowController {
     public ResponseData blog(@PathVariable Long id) {
         ResponseData responseData = null;
         Blog blog = blogService.selectOne(id);
-//        blog.setContent(MarkdownUtils.markdownToHtmlExtensions(blog.getContent()));
+//        blog.setContent(MarkdownUtils.markdownToHtmlExtensions(blog .getContent()));
         if (blog != null) {
             responseData = new ResponseData(1, "查询成功", blog);
         } else {

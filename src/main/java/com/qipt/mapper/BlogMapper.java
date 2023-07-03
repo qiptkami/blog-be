@@ -15,11 +15,7 @@ public interface BlogMapper {
     //查询所有blog
     List<Blog> selectList();
 
-    //首页查询
-    List<Blog> selectListQuery(String query);
-
-    //后端条件查询
-    List<Blog> selectListMultipleConditional(String title, Long typeId);
+    List<Blog> selectListConditional(String title, Long tagId);
 
     void insert(Blog blog);
 

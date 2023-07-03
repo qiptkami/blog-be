@@ -3,6 +3,7 @@ package com.qipt.controller.admin;
 import com.github.pagehelper.PageInfo;
 import com.qipt.pojo.Blog;
 import com.qipt.pojo.User;
+import com.qipt.response.ResponseData;
 import com.qipt.service.BlogService;
 import com.qipt.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,16 +26,6 @@ public class BlogController {
     @Autowired
     private TagService tagService;
 
-    @GetMapping("/blogs")
-    public String list(@RequestParam(name = "page", required = true, defaultValue = "1") Integer page,
-                       @RequestParam(name = "size", required = true, defaultValue = "5") Integer size,
-                       Model model) {
-        PageInfo<Blog> pageInfo = blogService.selectList(page, size);
-        model.addAttribute("pageInfo", pageInfo);
-        model.addAttribute("tags", tagService.selectList());
-        return "admin/blogs";
-    }
-
     @GetMapping("/blogs/input")
     public String inputPage(Model model) {
         model.addAttribute("blog", new Blog());
@@ -48,15 +39,6 @@ public class BlogController {
         model.addAttribute("blog", blog);
         model.addAttribute("tags", tagService.selectList());
         return "admin/blogs-input";
-    }
-
-    @PostMapping("/blogs/search")
-    public String search(@RequestParam(name = "page", required = true, defaultValue = "1") Integer page,
-                         @RequestParam(name = "size", required = true, defaultValue = "5") Integer size,
-                         Model model, String title, Long tagId) {
-        PageInfo<Blog> pageInfo = blogService.selectList(page, size, title, tagId);
-        model.addAttribute("pageInfo", pageInfo);
-        return "admin/blogs :: blogList";
     }
 
     @PostMapping("/blogs/input")

@@ -14,7 +14,7 @@ public class UserController {
     UserService userService;
 
     @GetMapping("/info")
-    public ResponseData userInfo(@RequestBody String username) {
+    public ResponseData userInfo(@RequestParam String username) {
         ResponseData responseData = null;
         User user = userService.selectOne(username);
         if (user != null) {

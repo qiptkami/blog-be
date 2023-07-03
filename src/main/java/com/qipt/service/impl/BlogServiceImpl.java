@@ -39,37 +39,29 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public PageInfo<Blog> selectList(int page, int size) {
-        String key = "blogs";
-        List<Blog> blogs;
-        boolean exists = redisUtils.exists(key);
-        if (!exists) {
-            blogs = blogMapper.selectList();
-            for (Blog blog : blogs) {
-                redisUtils.setPage(key, String.valueOf(blog.getId()), blog.getId().doubleValue(), blog);
+    public PageInfo<Blog> selectList(int page, int size, String title, Long tagId) {
+        if (Objects.equals(title, "") && tagId.toString().equals("0")) {
+            String key = "blogs";
+            List<Blog> blogs;
+            boolean exists = redisUtils.exists(key);
+            if (!exists) {
+                blogs = blogMapper.selectList();
+                for (Blog blog : blogs) {
+                    redisUtils.setPage(key, String.valueOf(blog.getId()), blog.getId().doubleValue(), blog);
+                }
+            } else {
+                List<Object> list = redisUtils.getPage(key, page, size);
+                blogs = new ArrayList<>();
+                for (Object blog : list) {
+                    blogs.add((Blog) blog);
+                }
             }
+            return getPageInfo(page, size, blogs, key);
         } else {
-            List<Object> list = redisUtils.getPage(key, page, size);
-            blogs = new ArrayList<>();
-            for (Object blog : list) {
-                blogs.add((Blog) blog);
-            }
+            PageHelper.startPage(page, size);
+            List<Blog> list = blogMapper.selectListConditional(title, tagId);
+            return new PageInfo<>(list);
         }
-        return getPageInfo(page, size, blogs, key);
-    }
-
-    @Override
-    public PageInfo<Blog> selectList(int page, int size, String query) {
-        PageHelper.startPage(page, size);
-        List<Blog> list = blogMapper.selectListQuery(query);
-        return new PageInfo<>(list);
-    }
-
-    @Override
-    public PageInfo<Blog> selectList(int page, int size, String title, Long typeId) {
-        PageHelper.startPage(page, size);
-        List<Blog> list = blogMapper.selectListMultipleConditional(title, typeId);
-        return new PageInfo<>(list);
     }
 
     @Override
